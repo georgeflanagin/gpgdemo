@@ -366,3 +366,31 @@ gpg -a --export-secret-key 036C2809 > dumb.user.secret.key
 gpg -a -quiet --trust-model always --yes -e --recipient kflanagin@stanford.edu dumb.user.secret.key
 gpg --delete-secret-keys 036C2809
 ```
+
+# Step 3: For each file, a new random AES key is generated.
+
+Remember what we said about public key cryptography not being used for encryption
+of files. This is the standard way that `gpg` works. Let's encrypt a file and take a 
+look at the result:
+
+```
+[master][m1(gflanagi):~/ishtar3]: gpg -a -quiet --trust-model always --yes -e --recipient kflanagin@stanford.edu -o ishtar.py.gpg ishtar.py
+[master][m1(gflanagi):~/ishtar3]: ll ishtar.py*
+-rwxr-xr-x  1 gflanagi  staff  17719 May  9 08:23 ishtar.py
+-rw-r--r--  1 gflanagi  staff   9085 May 16 10:45 ishtar.py.gpg
+
+[master][m1(gflanagi):~/ishtar3]: gpg --list-packets ishtar.py.gpg
+:pubkey enc packet: version 3, algo 1, keyid 6E4C8A08B8E4E532
+	data: [2047 bits]
+:encrypted data packet:
+	length: unknown
+	mdc_method: 2
+gpg: encrypted with 2048-bit RSA key, ID B8E4E532, created 2017-05-16
+      "Kelly Flanagin, Bf. D. (Throwaway key for demonstrations) <kflanagin@stanford.edu>"
+:compressed packet: algo=2
+:literal data packet:
+	mode b (62), created 1494945952, name="ishtar.py",
+	raw data: 17719 bytes
+
+```
+
