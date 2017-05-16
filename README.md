@@ -1,7 +1,4 @@
-# gpgdemo
-Demonstration of how public key cryptography is used in Wanna Cry
-
-# Description of the methods in Wanna Cry
+# Original description of the methods in Wanna Cry
 
 1. The malware creates a 2048 bit RSA key pair.
 1. The private key is encrypted using a public key that is included with the malware.
@@ -313,25 +310,15 @@ If you inspect an exported file, you will see something similar:
 
 So we send our public key along in the malware package. The malware package
 includes the necessary GPG code to do encryption and key generation. It arrives
-on the user's desktop with a big *plop*
+on the user's desktop with a big almighty **PLOP**.
 
-Now, we also need to have a key pair for the user. We have already seen the
-details, so here is the gist only:
-
+The malware now needs to generate a key pair for the user. We have already seen the
+details, so here is the gist only. The user will not see these steps; it is all done
+programmatically just like it is in Canøe.
 
 ```bash
 [master][m1(gflanagi):~/ishtar3]: gpg --gen-key
-gpg (GnuPG/MacGPG2) 2.0.30; Copyright (C) 2015 Free Software Foundation, Inc.
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-
-Please select what kind of key you want:
-   (1) RSA and RSA (default)
-   (2) DSA and Elgamal
-   (3) DSA (sign only)
-   (4) RSA (sign only)
-Your selection?
-RSA keys may be between 1024 and 4096 bits long.
+...blah blah blah ...
 What keysize do you want? (2048)
 Requested keysize is 2048 bits
 Please specify how long the key should be valid.
@@ -359,16 +346,10 @@ You selected this USER-ID:
     "Dumb User (I click on anything.) <clickbait@chum.org>"
 
 Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
-You need a Passphrase to protect your secret key.
-
+...blah blah blah...
 gpg: key 036C2809 marked as ultimately trusted
 public and secret key created and signed.
-
-gpg: checking the trustdb
-gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
-gpg: depth: 0  valid:   6  signed:  10  trust: 0-, 0q, 0n, 0m, 0f, 6u
-gpg: depth: 1  valid:  10  signed:   3  trust: 10-, 0q, 0n, 0m, 0f, 0u
-gpg: next trustdb check due at 2017-05-21
+...blah blah blah...
 pub   2048R/036C2809 2017-05-16 [expires: 2017-06-15]
       Key fingerprint = B50E EFB3 6E41 DA64 3224  4B8D DE37 9199 036C 2809
 uid       [ultimate] Dumb User (I click on anything.) <clickbait@chum.org>
@@ -376,3 +357,12 @@ sub   2048R/A5FAE61D 2017-05-16 [expires: 2017-06-15]
 ```
 
 # Step 2:
+
+We need to encrypt Dumb User's private key with Evil Kelly's public key
+that was included in the malware package. Effectively, we are doing this:
+
+```
+gpg -a --export-secret-key 036C2809 > dumb.user.secret.key
+gpg -a -quiet --trust-model always --yes -e --recipient kflanagin@stanford.edu dumb.user.secret.key
+gpg --delete-secret-keys 036C2809
+```
