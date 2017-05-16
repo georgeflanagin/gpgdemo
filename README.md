@@ -1,3 +1,8 @@
+# Scary fact
+
+The following is very close to what Canøe does with the _ExLibris_ integration where
+we control both ends of the pipe. Many parts of the material below describes what Canøe does all the time. 
+
 # Original description of the methods in Wanna Cry
 
 1. The malware creates a 2048 bit RSA key pair.
@@ -467,7 +472,4 @@ knows which key has been used to encrypt the file because that information is in
 gpg ishtar.py.gpg
 ```
 
-# 6. Scary fact
 
-The above is very close to what Canøe does with the _ExLibris_ integration. Many parts of the above are
-what Canøe does all the time. 
