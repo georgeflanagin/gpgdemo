@@ -445,3 +445,33 @@ gpg: encrypted with 2048-bit RSA key, ID B8E4E532, created 2017-05-16
 	mode b (62), created 1494946569, name="ishtar.py",
 	raw data: 17719 bytes
 ```
+
+# 5. To decrypt the files, the user’s private key needs to be decrypted, which requires the malware author's private key.
+
+To review:
+- We have a disc full of encrypted data files.
+- We have the malware on our disc, too. 
+- The malware has an encrypted copy of the private key we need to decrypt our stuff.
+- The private key we need to use is encrypted with Evil Kelly's public key. 
+- Evil Kelly's public key is of no use in decryption.
+
+So we part with a BitCoin, or some fraction thereof. The block chain is updated, and this creates 
+a receipt. 
+
+- The malware presents the encrypted private key to Evil Kelly, along with proof of payment.
+- Evil Kelly keeps his word, and decrypts the private key that has been stored on Dumb User's machine all along.
+- The decrypted, read-to-use private key is put on the malware's keyring. 
+- The malware then decrypts the files. 
+
+`gpg` assumes that you want to decrypt a file; i.e., decryption is `gpg`'s default operation. Remember that it 
+knows which key has been used to encrypt the file because that information is in the `.gpg` file's header. 
+`gpg` will use any key listed in the header for which it has the private key; you don't have to tell it anything.
+
+```bash
+gpg ishtar.py.gpg
+```
+
+# 6. Scary fact
+
+The above is very close to what Canøe does with the _ExLibris_ integration. Many parts of the above are
+what Canøe does all the time. 
