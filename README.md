@@ -361,7 +361,7 @@ sub   2048R/A5FAE61D 2017-05-16 [expires: 2017-06-15]
 We need to encrypt Dumb User's private key with Evil Kelly's public key
 that was included in the malware package. Effectively, we are doing this:
 
-```
+```bash
 gpg -a --export-secret-key 036C2809 > dumb.user.secret.key
 gpg -a -quiet --trust-model always --yes -e --recipient kflanagin@stanford.edu dumb.user.secret.key
 gpg --delete-secret-keys 036C2809
@@ -373,12 +373,20 @@ Remember what we said about public key cryptography not being used for encryptio
 of files. This is the standard way that `gpg` works. Let's encrypt a file and take a 
 look at the result:
 
-```
+```bash
 [master][m1(gflanagi):~/ishtar3]: gpg -a -quiet --trust-model always --yes -e --recipient kflanagin@stanford.edu -o ishtar.py.gpg ishtar.py
 [master][m1(gflanagi):~/ishtar3]: ll ishtar.py*
 -rwxr-xr-x  1 gflanagi  staff  17719 May  9 08:23 ishtar.py
 -rw-r--r--  1 gflanagi  staff   9085 May 16 10:45 ishtar.py.gpg
+```
 
+# Step 4: This random AES key is then encrypted using the public user key.
+
+Nothing special -- this is simply the way that `gpg` works. If you didn't do this, you would have no
+way of knowing which key could be used to decrypt the AES key that has been used to encrypt 
+the file.
+
+```bash
 [master][m1(gflanagi):~/ishtar3]: gpg --list-packets ishtar.py.gpg
 :pubkey enc packet: version 3, algo 1, keyid 6E4C8A08B8E4E532
 	data: [2047 bits]
@@ -391,6 +399,5 @@ gpg: encrypted with 2048-bit RSA key, ID B8E4E532, created 2017-05-16
 :literal data packet:
 	mode b (62), created 1494945952, name="ishtar.py",
 	raw data: 17719 bytes
-
 ```
 
