@@ -109,7 +109,7 @@ uid       [ultimate] Kelly Flanagin, Bf. D. (Throwaway key for demonstrations) <
 sub   2048R/B8E4E532 2017-05-16 [expires: 2017-05-21]
 ```
 
-# Step 1.5 Export the new keys so we can distribute them.
+# Step 1 Export the new keys so we can distribute them.
 
 `gpg` assumes you want to export the public key only because exporting
 the private key is such a compromise of security.
