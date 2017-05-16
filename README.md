@@ -31,18 +31,14 @@ files.* The reason is that we don't want to have key sharing among
 the thousands of "users" of our system. For maximum ROI, each
 user's files should be encrypted with a key created specially for
 that one user.
-
 1. The private key *for this user's files* is encrypted using a
 public key that is included with the malware. This is no big deal,
 because public keys are ... well ... *public*. But *whose* public
 key are we talking about? In the last step we learn that it is the
 malware author's public key. So Evil Kelly's public key will be used
-to encrypt Dumb User's private key.
-
-1. For each file, a new random AES key is generated.
-
-1. This random AES key is then encrypted using the public user key.
-
+to encrypt Dumb User's private key. Now it makes sense.
+1. For each file, a new random AES key is generated. This random AES key 
+is then encrypted using Evil Kelly' public key.
 1. To decrypt the files, the user’s private key needs to be decrypted,
 which requires the malware author's private key.
 
