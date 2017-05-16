@@ -401,3 +401,47 @@ gpg: encrypted with 2048-bit RSA key, ID B8E4E532, created 2017-05-16
 	raw data: 17719 bytes
 ```
 
+A fact that is often overlooked. A file can be encrypted so that more than one party can decrypt it.
+We do this in Canøe. We encrypt all the outbound files with the vendor's key, and we encrypt the file
+with our key as well. It is just a matter of adding an additional recipient:
+
+```bash
+[master][m1(gflanagi):~/ishtar3]: gpg -a -quiet --trust-model always --yes -e --recipient kflanagin@stanford.edu --recipient me@georgeflanagin.com -o ishtar.py.gpg ishtar.py
+```
+
+How can this possibly work? It is only the AES key that we are really encrypting. Two encrypted copies of the AES
+key are placed in the file along with the file's encrypted contents. Graphically, it looks like this:
+
+```
+ishtar.py.gpg
++-------------------------------------------------+
+| AES key encrypted for me@georgeflanagin.com     |
++-------------------------------------------------+
+| AES key encrypted for kflanagin@stanford.edu    |
++-------------------------------------------------+
+|     the zipped data from ishtar.py encrypted    |
+|     with the AES key.                           |
+|                                                 |
++-------------------------------------------------+
+```
+
+When seen with the `--list-packets` option of `gpg`, it looks like this:
+
+```
+[master][m1(gflanagi):~/ishtar3]: gpg --list-packets ishtar.py.gpg
+:pubkey enc packet: version 3, algo 1, keyid 6E4C8A08B8E4E532
+	data: [2047 bits]
+:pubkey enc packet: version 3, algo 1, keyid 44F41DCF6BFC3AFB
+	data: [4094 bits]
+:encrypted data packet:
+	length: unknown
+	mdc_method: 2
+gpg: encrypted with 4096-bit RSA key, ID 6BFC3AFB, created 2016-07-02
+      "George Flanagin (at home) <me@georgeflanagin.com>"
+gpg: encrypted with 2048-bit RSA key, ID B8E4E532, created 2017-05-16
+      "Kelly Flanagin, Bf. D. (Throwaway key for demonstrations) <kflanagin@stanford.edu>"
+:compressed packet: algo=2
+:literal data packet:
+	mode b (62), created 1494946569, name="ishtar.py",
+	raw data: 17719 bytes
+```
