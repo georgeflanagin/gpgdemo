@@ -1,7 +1,7 @@
 # Scary fact
 
 The following is very close to what Canøe does with the _ExLibris_ integration where
-we control both ends of the pipe. Many parts of the material below describes what Canøe does all the time. 
+we control both ends of the pipe. Many parts of the material below describe what Canøe does all the time. 
 
 # Original description of the methods in Wanna Cry
 
