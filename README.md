@@ -48,7 +48,7 @@ is then encrypted using Evil Kelly' public key.
 which requires the malware author's private key.
 
 
-# Step 0: Generate a key pair for Evil Kelly.
+## Step 0: Generate a key pair for Evil Kelly.
 
 The command is `gpg --gen-key`. This will be Evil Kelly's key pair.
 
@@ -114,7 +114,7 @@ uid       [ultimate] Kelly Flanagin, Bf. D. (Throwaway key for demonstrations) <
 sub   2048R/B8E4E532 2017-05-16 [expires: 2017-05-21]
 ```
 
-# Step 1 Export the new keys so we can distribute them.
+## Step 1 Export the new keys so we can distribute them.
 
 `gpg` assumes you want to export the public key only because exporting
 the private key is such a compromise of security.
@@ -357,7 +357,7 @@ uid       [ultimate] Dumb User (I click on anything.) <clickbait@chum.org>
 sub   2048R/A5FAE61D 2017-05-16 [expires: 2017-06-15]
 ```
 
-# Step 2:
+## Step 2:
 
 We need to encrypt Dumb User's private key with Evil Kelly's public key
 that was included in the malware package. Effectively, we are doing this:
@@ -368,7 +368,7 @@ gpg -a -quiet --trust-model always --yes -e --recipient kflanagin@stanford.edu d
 gpg --delete-secret-keys 036C2809
 ```
 
-# Step 3: For each file, a new random AES key is generated.
+## Step 3: For each file, a new random AES key is generated.
 
 Remember what we said about public key cryptography not being used for encryption
 of files. This is the standard way that `gpg` works. Let's encrypt a file and take a 
@@ -381,7 +381,7 @@ look at the result:
 -rw-r--r--  1 gflanagi  staff   9085 May 16 10:45 ishtar.py.gpg
 ```
 
-# Step 4: This random AES key is then encrypted using the public user key.
+## Step 4: This random AES key is then encrypted using the public user key.
 
 Nothing special -- this is simply the way that `gpg` works. If you didn't do this, you would have no
 way of knowing which key could be used to decrypt the AES key that has been used to encrypt 
@@ -447,7 +447,7 @@ gpg: encrypted with 2048-bit RSA key, ID B8E4E532, created 2017-05-16
 	raw data: 17719 bytes
 ```
 
-# 5. To decrypt the files, the user’s private key needs to be decrypted, which requires the malware author's private key.
+## 5. To decrypt the files, the user’s private key needs to be decrypted, which requires the malware author's private key.
 
 To review:
 - We have a disc full of encrypted data files.
